@@ -25,19 +25,21 @@ public class AuthService {
 	
 	public LoginResponse login(UserModel request) {
 
+		String token = "";
+		
 		Optional<UserModel> optionalUser = userRepository.findByUserName(request.getUserName());
 		if (optionalUser.isEmpty()) {
-			return new LoginResponse(AppConstants.FAILURE,AppConstants.USERNAME_WRONG,"NA");
+			return new LoginResponse(AppConstants.FAILURE,AppConstants.USERNAME_WRONG,token);
 		}
 		
 		UserModel user = optionalUser.get();
 		// Plain text password comparison
 		if (!passwordEncoder.matches(request.getPassword(), user.getPassword())) {
-			return new LoginResponse(AppConstants.FAILURE,AppConstants.PASSWORD_WRONG,"NA");
+			return new LoginResponse(AppConstants.FAILURE,AppConstants.PASSWORD_WRONG,token);
 		}
 		
 		// Generate JWT Token
-		String token = jwtService.generateToken(request.getUserName());
+		token=jwtService.generateToken(request.getUserName());
 
 		return new LoginResponse(AppConstants.SUCCESS,AppConstants.LOGIN_SUCCESS,token);
 	}
