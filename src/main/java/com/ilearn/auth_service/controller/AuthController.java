@@ -12,7 +12,6 @@ import com.ilearn.auth_service.model.UserModel;
 import com.ilearn.auth_service.service.AuthService;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:3000")
 @RequestMapping("/authservice")
 public class AuthController {
 
